@@ -8,7 +8,7 @@ def home(request,category_slug=None):
     # print(data)
     if category_slug is not None:
         category=Category.objects.get(slug=category_slug)
-        data = Post.objects.filter(category=category)
+        data = Post.objects.filter(brand=category)
 
     categories=Category.objects.all()
     return render(request,'home.html',{'data':data,'category':categories})

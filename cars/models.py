@@ -1,16 +1,15 @@
 from django.db import models
-from brands.models import Category
+from brands.models import Category  # Assuming Brand model is defined in brands app
 from django.contrib.auth.models import User
-
-# Create your models here.
-
+from django.utils import timezone
 class Post(models.Model):
-    title=models.CharField(max_length=50)
-    content=models.TextField()
-    category=models.ManyToManyField(Category)
-    # ekta post multiple categorr moddhe thakte pre, abr eta category ar moddha multiple post thakte pre.
-    author = models.ForeignKey(User,on_delete=models.CASCADE)    
+    title = models.CharField(max_length=50)
+    image_url = models.URLField(max_length=200, default='')  # Default empty string for image URL
+    car_name = models.CharField(max_length=100, default='Unnamed Car')  # Default car name
+    car_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)  # Default price 0.0
+    brand = models.ForeignKey(Category, on_delete=models.CASCADE)  # ForeignKey to Brand model
+    car_quantity = models.PositiveIntegerField(default=0)  # Default quantity 0
+    car_description = models.TextField(default='No description available')  # Default description
+
     def __str__(self):
         return self.title
-# set null o kra jte pre.....! 
-

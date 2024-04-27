@@ -48,8 +48,8 @@ def user_login(request):
 
 @login_required
 def profile(request):
-    # data=Post.objects.all()
-    data=Post.objects.filter(author=request.user)
+    data=Post.objects.all()
+    # data=Post.objects.filter(author=request.user)
     return render(request, 'profile.html',{'data':data})
 
 
