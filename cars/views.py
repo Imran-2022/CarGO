@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from . import forms
 from . import models
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, render
+from .models import Post
 # Create your views here.
 
 @login_required
@@ -34,7 +36,11 @@ def edit_post(request,id):
             return redirect('homepage')
     return render(request, 'add_post.html',{'form':post_form})
 
-  
+
+def car_details(request, id):
+    post = get_object_or_404(Post, pk=id)
+    return render(request, 'car_details.html', {'car': post})
+
 @login_required
 def delete_post(request,id):
     post=models.Post.objects.get(pk=id)
