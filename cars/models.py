@@ -2,6 +2,7 @@ from django.db import models
 from brands.models import Category  # Assuming Brand model is defined in brands app
 from django.contrib.auth.models import User
 from django.utils import timezone
+
 class Post(models.Model):
     title = models.CharField(max_length=50)
     image_url = models.URLField(max_length=200, default='')  # Default empty string for image URL
@@ -13,3 +14,14 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Order(models.Model):
+    car = models.ForeignKey('Post', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    order_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Order #{self.id} - {self.car.car_name} by {self.user.username}"
+    
+    
