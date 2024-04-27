@@ -52,20 +52,21 @@
             </div>
             <button type="submit" class="btn btn-primary">Add Comment</button>
           </form>
-          <!-- Comments -->
-          <h4>Comments</h4>
-          <div class="comments">
-            {% for comment in car.comments.all %}
-              <div class="comment">
-                <p><strong>{{ comment.name }}</strong>: {{ comment.comment }}</p>
-              </div>
-            {% empty %}
-              <p>No comments yet.</p>
-            {% endfor %}
-          </div>
         {% else %}
-          <p>Please <a href="{% url 'user_login' %}">log in</a> to buy this car and comment.</p>
+          <hr />
+          <p>Please <a href="{% url 'user_login' %}">log in</a> to add a comment.</p>
         {% endif %}
+        <!-- Comments -->
+        <h4>Comments</h4>
+        <div class="comments">
+          {% for comment in car.comments.all %}
+            <div class="comment">
+              <p><strong>{{ comment.name }}</strong>: {{ comment.comment }}</p>
+            </div>
+          {% empty %}
+            <p>No comments yet.</p>
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>
