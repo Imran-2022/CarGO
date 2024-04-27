@@ -1,0 +1,45 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="d-flex flex-wrap">
+  <div class="col-2">
+    {% for i in category %}
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="radio"
+        value="{{ i.id }}"
+        id="{{ i.id }}"
+        name="category"
+      />
+      <label class="form-check-label" for="{{ i.id }}"> 
+        <a href="{% url 'category_wise_post' i.slug %}">{{ i.name }} </a>
+      </label>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="col-10 d-flex flex-wrap justify-content-center gap-5">
+
+    <h1> {{data | length}} results found ! </h1>
+
+    {% for post in data %}
+
+    <div class="col-sm-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{post.title}}</h5>
+          <p class="card-text">{{post.content}}</p>
+          <p>author : {{post.author.first_name}}</p>
+          <div class="p-2">
+            {% for category in post.category.all %}
+            <span class="text-primary">{{ category.name }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock content %}
