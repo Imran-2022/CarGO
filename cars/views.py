@@ -3,7 +3,8 @@ from . import forms
 from . import models
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
-from .models import Post,Order
+from .models import Post,Order,Comment
+from django.contrib import messages
 # Create your views here.
 
 @login_required
@@ -46,7 +47,7 @@ def delete_post(request,id):
     post=models.Post.objects.get(pk=id)
     post.delete()
     return redirect('homepage')
-
+@login_required
 def buy_now(request):
     if request.method == 'POST' and request.user.is_authenticated:
         car_id = request.POST.get('car_id')
@@ -60,6 +61,7 @@ def buy_now(request):
             car.save()
     return redirect('profile')  # Redirect to order history page or user profile
 
+@login_required
 def order_history(request):
     orders = Order.objects.filter(user=request.user)
     context = {'orders': orders}
@@ -67,4 +69,14 @@ def order_history(request):
     return render(request, 'profile.html', context)
 
 
-
+@login_required
+def add_comment(request, id):
+    if request.method == 'POST':
+        car = Post.objects.get(pk=id)
+        name = request.POST['name']
+        comment_text = request.POST['comment']
+        Comment.objects.create(car=car, user=request.user, name=name, comment=comment_text)
+        messages.success(request, 'Comment added successfully!')
+        return redirect('car_details', id=id)  # Redirect to car details using 'id' parameter
+    else:
+        return redirect('homepage')  # Redirect to home page if not a POST request

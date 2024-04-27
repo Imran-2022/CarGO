@@ -15,6 +15,16 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+class Comment(models.Model):
+    car = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)  # Assuming this is the commenter's name
+    comment = models.TextField()
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Comment by {self.name} on {self.car.car_name}"
+
 
 class Order(models.Model):
     car = models.ForeignKey('Post', on_delete=models.CASCADE)
